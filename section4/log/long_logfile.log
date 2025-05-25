@@ -1,0 +1,12 @@
+2025-05-25 10:00:01 INFO User logged in
+2025-05-25 10:05:23 ERROR Connection failed
+2025-05-25 10:10:45 INFO Data processed
+2025-05-25 10:15:30 WARNING Low disk space
+2025-05-25 10:20:10 INFO System rebooted
+2025-05-25 10:25:50 ERROR Disk read failure
+2025-05-25 10:30:15 INFO Backup completed
+2025-05-25 10:35:40 WARNING High memory usage
+2025-05-25 10:40:55 INFO User logged out
+2025-05-25 10:45:20 ERROR Network timeout
+2025-05-25 10:50:30 INFO System check passed
+2025-05-25 10:55:45 INFO Maintenance scheduled

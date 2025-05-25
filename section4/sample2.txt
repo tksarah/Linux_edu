@@ -1,0 +1,12 @@
+Line 1: Welcome to Linux! 
+Line 2: This is a sample file.
+Line 3: You can use head and tail.
+Line 4: Let's practice commands.
+Line 5: Linux is powerful.
+Line 6: Text processing is important.
+Line 7: Try using grep, sed, and awk.
+Line 8: File manipulation is key.
+Line 9: Bash scripting is useful.
+Line 10: Keep learning!
+Line 11: This is an extra line.
+Line 12: Another extra line.

@@ -1,0 +1,4 @@
+Hello, Linux!
+This is a sample text file.
+Linux is powerful.
+Let's learn some commands!
