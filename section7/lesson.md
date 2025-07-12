@@ -36,9 +36,18 @@ $
 
 ```bash
 $ sudo dnf install tree
+We trust you have received the usual lecture from the local System
+Administrator. It usually boils down to these three things:
+
+    #1) Respect the privacy of others.
+    #2) Think before you type.
+    #3) With great power comes great responsibility.
+
+[sudo] password for taro: （ここで taro パスワードを入力）
 ```
 
-このコマンドの意味は、dnf というコマンドを使ってインターネットから"tree"というパッケージをインストールしている
+* dnf コマンドの意味は、dnf というコマンドを使ってインターネットから"tree"というパッケージをインストールしている
+* sudo はじめて実行する場合は上記の警告メッセージが１度だけ出力される
 
 ## 8. 一度、taro ユーザーから root に戻る
 **exit** コマンドを使うと、taro ユーザーに切り替わる前のユーザーに戻る
