@@ -3,6 +3,7 @@
 ## 1. Windows のパソコンで、PowerShell を起動
 
 32 bit 版の **Windows PoewrShell(x86)** だとssh が起動できないばあいがある。その場合は、64 bit 版の **Windows PowerShell** を起動する。 
+<img width="1022" height="286" alt="image" src="https://github.com/user-attachments/assets/8aa56c1d-a87d-4465-9316-cffbcde27c17" />
 
 ## 2. PowerShell でssh を使って、root （スーパーユー）でサーバーにログイン
 
