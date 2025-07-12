@@ -2,6 +2,8 @@
 
 ## 1. Windows のパソコンで、PowerShell を起動
 
+32 bit 版の **Windows PoewrShell(x86)** だとssh が起動できないばあいがある。その場合は、64 bit 版の **Windows PowerShell** を起動する。 
+
 ## 2. PowerShell でssh を使って、root （スーパーユー）でサーバーにログイン
 
 ```bash
@@ -35,7 +37,7 @@ $
 ## 7. 以下のコマンドを sudo を使って実行し、エラーで実行できないことを確認
 
 ```bash
-$ **sudo dnf install tree**
+$ sudo dnf install tree
 We trust you have received the usual lecture from the local System
 Administrator. It usually boils down to these three things:
 
