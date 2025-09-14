@@ -41,11 +41,8 @@ Hanako 192.168.0.2
 ```
 
 - インベントリファイル（hosts）を作る
-
-スクリプト（tools/generate_inventory.sh）を実行
+  -  スクリプト（tools/generate_inventory.sh）を実行
 
 - 全受験者マシンに公開鍵をコピー
-
-スクリプト（tools/copy_keys.sh）を実行
-
-※ 実行前に、受講者マシンの root のパスワードを"PASSWORD"に設定する
+  - スクリプト（tools/copy_keys.sh）を実行
+  - ※ 実行前に、受講者マシンの root のパスワードを"PASSWORD"に設定する
