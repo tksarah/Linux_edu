@@ -74,7 +74,9 @@ ssh で 指定されたサーバーへスーパーユーザー（root）でロ�
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ＜表示例＞  http://自分のマシンのIPアドレス/
 
  
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img width="630" height="361" alt="画像1" src="https://github.com/user-attachments/assets/760427e5-7ca5-4c7a-b139-80681698c101" />
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img width="731" height="548" alt="image" src="https://github.com/user-attachments/assets/971c3839-ce10-4d85-ba75-8c765777984d" />
+
+
 
 ## 問題：　バックアップとスケジューリング
 
