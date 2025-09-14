@@ -65,7 +65,7 @@ ssh で 指定されたサーバーへスーパーユーザー（root）でロ�
 3. Web Server はＯＳが再起動したとしても、自動的に起動するように設定する
 3. Web Server が起動している状態で、プロセスの状態を確認する ps コマンドを使い、httpd の情報のみを「/root/ps_httpd.out」というファイルに出力せよ
 
-5. Web Server は初期状態ですでにテストページが表示されるようになっている。このテストページの内容を変更して、「Hello TECHC」とだけ表示されるように設定せよ
+5. Web Server は初期状態ですでにテストページが表示されるようになっている。このテストページの内容を変更して、「Hello World」とだけ表示されるように設定せよ
 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ヒント：　https://httpd.apache.org/docs/2.4/ja/getting-started.html#content
@@ -89,7 +89,7 @@ ssh で 指定されたサーバーへスーパーユーザー（root）でロ�
 ```
 # cat /root/script.sh　
 #!/bin/bash
-echo “Hello TECHC” >> /root/run.log
+echo “Hello World” >> /root/run.log
 ```
 
 設定が終わった後に１分以上待って、/root/run.log に”Hello TEHC”が１分毎に出力され続ける事を確認する。
