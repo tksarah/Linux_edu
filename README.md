@@ -1,2 +1,1 @@
-# sample
-for Linux education
+# Linux Education Repo
