@@ -92,7 +92,7 @@ ssh で 指定されたサーバーへスーパーユーザー（root）でロ�
 echo “Hello World” >> /root/run.log
 ```
 
-設定が終わった後に１分以上待って、/root/run.log に”Hello TEHC”が１分毎に出力され続ける事を確認する。
+設定が終わった後に１分以上待って、/root/run.log に”Hello World”が１分毎に出力され続ける事を確認する。
 
 ヒント：　
 - シェルスクリプトを書くためにはエディタ（vi）を使う
