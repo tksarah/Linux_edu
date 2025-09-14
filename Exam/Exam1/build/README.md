@@ -1,5 +1,11 @@
 # Ansible Host の準備
 
+事前に git インストール
+
+```
+[root@host ~]# dnf install -y git
+```
+
 ## Ansible Install
 ```
 [root@host ~]# dnf install -y python3 python3-pip python3-virtualenv
