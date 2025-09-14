@@ -19,7 +19,7 @@ ansible [core 2.15.13]
   libyaml = True
 ```
 
-- sshpass Instal
+- sshpass Install
 ```
 [root@host ~]# dnf install -y sshpass
 ```
@@ -27,6 +27,7 @@ ansible [core 2.15.13]
 - キーペア作成、ノンパス
 ```
 # ssh-keygen -t rsa -b 4096
+```
 
 - 受験者のリストを作成
 受験者用のマシンを作った後に、以下のようなファイルを作成する。
