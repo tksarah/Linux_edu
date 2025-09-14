@@ -10,6 +10,8 @@
 - Region： Singapore
 - スペック:  Regular, $6/Mo で十分
 
+- [Ansible Host 構築準備](build/README.md)
+
 ### 学生
 当日デプロイする
 
@@ -17,3 +19,5 @@
 - OS: CentOS 9（sshパスワード認証を使うため）
 - Region： Singapore
 - スペック:  Regular, $6/Mo で十分
+
+
