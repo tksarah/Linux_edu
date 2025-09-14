@@ -66,13 +66,15 @@ ssh で 指定されたサーバーへスーパーユーザー（root）でロ�
 3. Web Server が起動している状態で、プロセスの状態を確認する ps コマンドを使い、httpd の情報のみを「/root/ps_httpd.out」というファイルに出力せよ
 
 5. Web Server は初期状態ですでにテストページが表示されるようになっている。このテストページの内容を変更して、「Hello TECHC」とだけ表示されるように設定せよ
-　
-ヒント：　https://httpd.apache.org/docs/2.4/ja/getting-started.html#content
-
-＜表示例＞
-http://自分のマシンのIPアドレス/
 
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ヒント：　https://httpd.apache.org/docs/2.4/ja/getting-started.html#content
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ＜表示例＞  http://自分のマシンのIPアドレス/
+
+ 
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img width="630" height="361" alt="画像1" src="https://github.com/user-attachments/assets/760427e5-7ca5-4c7a-b139-80681698c101" />
 
 ## 問題：　バックアップとスケジューリング
 
