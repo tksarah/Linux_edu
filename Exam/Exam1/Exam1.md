@@ -43,7 +43,7 @@ ssh で 指定されたサーバーへスーパーユーザー（root）でロ�
 7. 「taro」ユーザーのホームディレクトリに /etc/hosts を「hosts.taro」という名でコピーする
 8. 「taro」のホームディレクトリに”mydir”というディレクトリを作る
 9. **8.** で作ったディレクトリの配下に”no1”というディレクトリを作る
-10. **9.** で作ったディレクトリの配下に、**7.** で作ったhosts.taro ファイルを移動させる
+10. **9.** で作ったディレクトリの配下に、**7.** で作った hosts.taro ファイルを移動させる
 
 「taro」 ユーザーからスーパーユーザー（root）に切り替える
 
@@ -56,5 +56,46 @@ ssh で 指定されたサーバーへスーパーユーザー（root）でロ�
 192.168.100.10
 ```
 
+## 問題2：　Webサーバー構築　
+
+配点：25点
+
+1. Apache Web Server（httpd）をインストールする
+2. Web Server を起動する
+3. Web Server はＯＳが再起動したとしても、自動的に起動するように設定する
+3. Web Server が起動している状態で、プロセスの状態を確認する ps コマンドを使い、httpd の情報のみを「/root/ps_httpd.out」というファイルに出力せよ
+
+5. Web Server は初期状態ですでにテストページが表示されるようになっている。このテストページの内容を変更して、「Hello TECHC」とだけ表示されるように設定せよ
+　
+ヒント：　https://httpd.apache.org/docs/2.4/ja/getting-started.html#content
+
+＜表示例＞
+http://自分のマシンのIPアドレス/
 
 
+
+## 問題：　バックアップとスケジューリング
+
+配点：25点
+
+※ 以下の操作はスーパーユーザー（root）で行う。
+
+1. Webサーバーのログファイルには /var/log/httpd/access_log と /var/log/httpd/error_log がある。この2つのファイルを、/var/tmp/examの下にコピーし、tar コマンドで /var/tmp/exam/httpd.logs.tar ファイルにアーカイブをし、さらにgzip で圧縮をして保存する、保存されるファイルは /var/tmp/exam/httpd.logs.tar.gz となる
+
+2. 以下のような script.sh スクリプトファイルを作り、これを毎分（つまり1分毎）に実行されるようにする
+
+```
+# cat /root/script.sh　
+#!/bin/bash
+echo “Hello TECHC” >> /root/run.log
+```
+
+設定が終わった後に１分以上待って、/root/run.log に”Hello TEHC”が１分毎に出力され続ける事を確認する。
+
+ヒント：　
+- シェルスクリプトを書くためにはエディタ（vi）を使う
+- スクリプトを実行するためには実行権限が必要
+- シェルスクリプトをスケジューリング実行する場合は cron を使う
+
+
+以上、
