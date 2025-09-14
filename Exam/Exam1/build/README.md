@@ -1,6 +1,6 @@
 # Ansible Host の準備
 
-- Ansible Install
+## Ansible Install
 ```
 [root@host ~]# dnf install -y python3 python3-pip python3-virtualenv
 [root@host ~]# python3 -m venv ~/ansible-env
@@ -19,19 +19,19 @@ ansible [core 2.15.13]
   libyaml = True
 ```
 
-- sshpass Install
+## sshpass Install
 ```
 [root@host ~]# dnf install -y sshpass
 ```
 
-- キーペア作成、ノンパス
+## キーペア作成、ノンパス
 ```
 # ssh-keygen -t rsa -b 4096
 ```
 
-- 受験者のリストを作成
-  - 受験者用のマシンを作った後に、以下のようなファイルを作成する。
-  - 書式： "受講者名 eth1のIPアドレス"
+## 受験者のリストを作成
+- 受験者用のマシンを作った後に、以下のようなファイルを作成する。
+- 書式： "受講者名 eth1のIPアドレス"
 
 ```
 <student.txt>
@@ -39,14 +39,14 @@ Taro 192.168.0.1
 Hanako 192.168.0.2
 ```
 
-- インベントリファイル（hosts）を作る
-  -  スクリプト（tools/generate_inventory.sh）を実行
-  - 作成されたファイルを Playbook と同じディレクトリに置く
+## インベントリファイル（hosts）を作る
+-  スクリプト（tools/generate_inventory.sh）を実行
+- 作成されたファイルを Playbook と同じディレクトリに置く
 
-- 全受験者マシンに公開鍵をコピー
-  - スクリプト（tools/copy_keys.sh）を実行
-  - ※ Ansible Host の方の .ssh/known_hosts をリフレッシュ
-  - ※ 実行前に、受講者マシンの root のパスワードを"PASSWORD"に設定する
+## 全受験者マシンに公開鍵をコピー
+- スクリプト（tools/copy_keys.sh）を実行
+- ※ Ansible Host の方の .ssh/known_hosts をリフレッシュ
+- ※ 実行前に、受講者マシンの root のパスワードを"PASSWORD"に設定する
 
 ## 実行テスト
 
