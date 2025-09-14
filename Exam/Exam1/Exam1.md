@@ -91,7 +91,7 @@ ssh で 指定されたサーバーへスーパーユーザー（root）でロ�
 ```
 # cat /root/script.sh　
 #!/bin/bash
-echo “Hello World” >> /root/run.log
+echo 'Hello World' >> /root/run.log
 ```
 
 設定が終わった後に１分以上待って、/root/run.log に”Hello World”が１分毎に出力され続ける事を確認する。
