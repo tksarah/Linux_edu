@@ -36,18 +36,18 @@
             else '⚠️ Crontab does NOT contain expected entry'
           }}
 
-    - name: Count lines containing 'Hello TECHC'
-      ansible.builtin.shell: "grep -c 'Hello TECHC' /root/run.log"
+    - name: Count lines containing 'Hello World'
+      ansible.builtin.shell: "grep -c 'Hello World' /root/run.log"
       register: hello_count
       changed_when: false
 
-    - name: Confirm at least 3 lines contain 'Hello TECHC'
+    - name: Confirm at least 3 lines contain 'Hello World'
       debug:
         msg: >-
           {{
             '✅ ログファイルの継続出力の確認OK （3行以上）'
             if (hello_count.stdout | int) >= 3
-            else '⚠️ /root/run.log contains fewer than 3 Hello TECHC lines (count: ' ~ hello_count.stdout ~ ')'
+            else '⚠️ /root/run.log contains fewer than 3 Hello World lines (count: ' ~ hello_count.stdout ~ ')'
           }}
 
   ignore_errors: yes
