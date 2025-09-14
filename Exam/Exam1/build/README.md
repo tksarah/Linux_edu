@@ -30,18 +30,18 @@ ansible [core 2.15.13]
 ```
 
 ## 受験者のリストを作成
-- 受験者用のマシンを作った後に、以下のような student.txt を作成
-- 書式： "受講者名 eth1のIPアドレス"
+- 受験者用のマシンを作った後に、以下のような students.txt を作成
+- 書式： "受講者名  eth1のIPアドレス"
 
 ```
-<student.txt>
+<students.txt>
 Taro 192.168.0.1
 Hanako 192.168.0.2
 ```
 
 ## インベントリファイル（hosts）を作る
 -  スクリプト（tools/generate_inventory.sh）を実行
-- 作成されたファイルを Playbook と同じディレクトリに置く
+- 作成されたファイル hosts を確認し Playbook と同じディレクトリに置く
 
 ## 全受験者マシンに公開鍵をコピー
 - Ansible Host の .ssh/known_hosts をリフレッシュ

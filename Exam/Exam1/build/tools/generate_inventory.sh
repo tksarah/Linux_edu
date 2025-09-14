@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 入力ファイル
-INPUT_FILE="student.txt"
+INPUT_FILE="students.txt"
 # 出力ファイル
 OUTPUT_FILE="hosts"
 

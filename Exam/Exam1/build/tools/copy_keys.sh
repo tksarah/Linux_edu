@@ -4,7 +4,7 @@
 PASSWORD=""
 
 # 入力ファイル
-INPUT="student.txt"
+INPUT="students.txt"
 
 # sshpass がインストールされているか確認
 if ! command -v sshpass &> /dev/null; then
