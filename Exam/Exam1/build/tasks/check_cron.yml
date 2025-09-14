@@ -1,0 +1,54 @@
+- block:
+    - name: Get permission info for /root/script.sh
+      ansible.builtin.stat:
+        path: /root/script.sh
+      register: script_info
+
+    - name: Confirm owner has execute permission
+      debug:
+        msg: >-
+          {{
+            '✅ スクリプトの実行権限の確認OK'
+            if (script_info.stat.mode | int(base=8)) // 64 % 2 == 1
+            else '⚠️ Owner does NOT have execute permission (mode: ' ~ script_info.stat.mode ~ ')'
+          }}
+
+    - name: Get root's crontab entries
+      ansible.builtin.command: crontab -l
+      register: crontab_output
+      changed_when: false
+
+    - name: Check if crontab contains '* * * * * /root/script.sh'
+      set_fact:
+        cron_match: >-
+          {{
+            crontab_output.stdout_lines
+            | select('equalto', '* * * * * /root/script.sh')
+            | list
+          }}
+
+    - name: Confirm crontab entry exists
+      debug:
+        msg: >-
+          {{
+            '✅ crontab の設定確認OK'
+            if cron_match | length > 0
+            else '⚠️ Crontab does NOT contain expected entry'
+          }}
+
+    - name: Count lines containing 'Hello TECHC'
+      ansible.builtin.shell: "grep -c 'Hello TECHC' /root/run.log"
+      register: hello_count
+      changed_when: false
+
+    - name: Confirm at least 3 lines contain 'Hello TECHC'
+      debug:
+        msg: >-
+          {{
+            '✅ ログファイルの継続出力の確認OK （3行以上）'
+            if (hello_count.stdout | int) >= 3
+            else '⚠️ /root/run.log contains fewer than 3 Hello TECHC lines (count: ' ~ hello_count.stdout ~ ')'
+          }}
+
+  ignore_errors: yes
+  tags: cron

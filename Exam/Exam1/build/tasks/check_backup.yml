@@ -1,0 +1,32 @@
+- block:
+
+    - name: Check if /var/tmp/exam/httpd.logs.tar.gz exists
+      ansible.builtin.stat:
+        path: /var/tmp/exam/httpd.logs.tar.gz
+      register: tar_file
+
+    - name: Confirm file existence
+      debug:
+        msg: >-
+          {{
+            '✅ ファイルの確認OK: /var/tmp/exam/httpd.logs.tar.gz'
+            if tar_file.stat.exists and tar_file.stat.isreg
+            else '⚠️ File does NOT exist or is not a regular file'
+          }}
+
+    - name: Try to list contents using tar
+      ansible.builtin.command: tar -tzf /var/tmp/exam/httpd.logs.tar.gz
+      register: tar_list
+      changed_when: false
+
+    - name: Confirm tar archive is valid
+      debug:
+        msg: >-
+          {{
+            '✅ きちんとアーカイブファイルであることの確認OK'
+            if tar_list.rc == 0
+            else '⚠️ Not a valid tar archive or corrupted file'
+          }}
+
+  ignore_errors: yes
+  tags: backup

@@ -1,0 +1,248 @@
+    - block:
+        - name: Check if group 'techc' exists
+          ansible.builtin.command: getent group techc
+          register: group_check
+
+        - name: Show result
+          debug:
+            msg: >-
+              {{
+                '✅ グループ作成OK'
+                if group_check.rc == 0
+                else '⚠️ Group techc does NOT exist'
+              }}
+
+      ignore_errors: yes
+      tags: group
+
+    - block:
+        - name: Check if user 'taro' exists
+          ansible.builtin.command: id taro
+          register: result
+
+        - name: Show result
+          debug:
+            msg: >-
+              {{
+                '✅ ユーザー作成OK'
+                if result.rc == 0
+                else '⚠️ User does NOT exist'
+              }}
+
+        - name: Get taro's group list
+          ansible.builtin.command: id -nG taro
+          register: taro_groups
+          changed_when: false
+
+        - name: Check if taro belongs to 'techc'
+          debug:
+            msg: >-
+              {{
+                '✅ グループのtechc の所属確認OK'
+                if 'techc' in taro_groups.stdout.split()
+                else '⚠️ taro does NOT belong to techc group'
+              }}
+
+      ignore_errors: yes
+      tags: user
+
+    - block:
+        - name: Check password for taro
+          ansible.builtin.command: grep '^taro:' /etc/shadow
+          register: shadow_entry
+          changed_when: false
+
+        - name: Extract hash and compare
+          set_fact:
+            taro_password_field: "{{ shadow_entry.stdout.split(':')[1] | default('') }}"
+
+        - name: Check if password is set
+          debug:
+            msg: >-
+              {{
+                '⚠️ taro has NO usable password (unset or locked)'
+                if taro_password_field in ['', '!', '*', '!!']
+                else '✅ taro のパスワード設定OK'
+              }}
+      ignore_errors: yes
+      tags: password
+
+    - block:
+        - name: Read /home/taro/hello file (base64 encoded)
+          ansible.builtin.slurp:
+            src: /home/taro/hello
+          register: hello_file
+
+        - name: Decode and check file content
+          set_fact:
+            hello_text: "{{ hello_file.content | b64decode | trim }}"
+
+        - name: Confirm file contains 'Hello World'
+          debug:
+            msg: >-
+              {{
+                '✅ Hello World ファイルの作成OK'
+                if hello_text == 'Hello World'
+                else '⚠️ File content does NOT match: ' ~ hello_text
+              }}
+
+        - name: Get file ownership info
+          ansible.builtin.stat:
+            path: /home/taro/hello
+          register: file_info
+
+        - name: Check if owner is 'taro'
+          debug:
+            msg: >-
+              {{
+                '☑  ちゃんと太郎が作っているかの確認OK'
+                if file_info.stat.pw_name == 'taro'
+                else '⚠️ File is NOT owned by taro (actual owner: ' ~ file_info.stat.pw_name ~ ')'
+              }}
+
+      ignore_errors: yes
+      tags: hello
+
+    - block:
+        - name: Get file permission info
+          ansible.builtin.stat:
+            path: /home/taro/hello
+          register: file_info
+
+        - name: Check if permission is 740
+          debug:
+            msg: >-
+              {{
+                '✅ パーミッション 740 OK'
+                if file_info.stat.mode == '0740'
+                else '⚠️ Permission is NOT 740 (actual: ' ~ file_info.stat.mode ~ ')'
+              }}
+
+      ignore_errors: yes
+      tags: perm
+
+    - block:
+        - name: Get directory info
+          ansible.builtin.stat:
+            path: /home/taro/mydir/no1
+          register: dir_info
+
+        - name: Confirm it is a directory
+          debug:
+            msg: "✅ ディレクトリ作成OK"
+          when: dir_info.stat.isdir
+
+        - name: Confirm owner is 'taro'
+          debug:
+            msg: >-
+              {{
+                '☑  ちゃんと太郎が作っているかの確認OK'
+                if dir_info.stat.pw_name == 'taro'
+                else '⚠️ Directory is NOT owned by taro (actual owner: ' ~ dir_info.stat.pw_name ~ ')'
+              }}
+
+      ignore_errors: yes
+      tags: dir
+
+    - block:
+        - name: Check if hosts.taro exists
+          ansible.builtin.stat:
+            path: /home/taro/mydir/no1/hosts.taro
+          register: hosts_taro_info
+
+        - name: Confirm file is owned by taro
+          debug:
+            msg: >-
+              {{
+                '☑  ちゃんと太郎が作っているかの確認OK'
+                if hosts_taro_info.stat.exists and hosts_taro_info.stat.pw_name == 'taro'
+                else '⚠️ File is missing or not owned by taro'
+              }}
+
+        - name: Read /etc/hosts
+          ansible.builtin.slurp:
+            src: /etc/hosts
+          register: etc_hosts_raw
+
+        - name: Read /home/taro/mydir/no1/hosts.taro
+          ansible.builtin.slurp:
+            src: /home/taro/mydir/no1/hosts.taro
+          register: hosts_taro_raw
+          when: hosts_taro_info.stat.exists
+
+        - name: Compare contents
+          debug:
+            msg: >-
+              {{
+                '✅ /etc/hosts をちゃんとコピーしているかの確認OK'
+                if (etc_hosts_raw.content | b64decode | trim) ==
+                   (hosts_taro_raw.content | b64decode | trim)
+                else '⚠️ File content does NOT match /etc/hosts'
+              }}
+          when: hosts_taro_info.stat.exists
+
+      ignore_errors: yes
+      tags: hosts
+
+    - block:
+        - name: Check if /root/resolv.conf exists
+          ansible.builtin.stat:
+            path: /root/resolv.conf
+          register: root_resolv_stat
+
+        - name: Read /etc/resolv.conf
+          ansible.builtin.slurp:
+            path: /etc/resolv.conf
+          register: etc_resolv
+          when: root_resolv_stat.stat.exists
+
+        - name: Read /root/resolv.conf
+          ansible.builtin.slurp:
+            path: /root/resolv.conf
+          register: root_resolv
+          when: root_resolv_stat.stat.exists
+
+        - name: Compare contents of /etc/resolv.conf and /root/resolv.conf
+          debug:
+            msg: >-
+              {{
+                '✅ 正しくDNSリゾルバファイルの中身がコピーされている事を確認OK'
+                if etc_resolv.content == root_resolv.content
+                else '⚠️ File contents do NOT match'
+              }}
+          when:
+            - root_resolv_stat.stat.exists
+            - etc_resolv is defined
+            - root_resolv is defined
+
+      ignore_errors: yes
+      tags: dns
+
+    - block:
+        - name: Get eth1 IP address from facts
+          set_fact:
+            eth1_ip: "{{ ansible_eth1.ipv4.address | default('') }}"
+
+        - name: Read /root/ipaddress file
+          ansible.builtin.slurp:
+            path: /root/ipaddress
+          register: ip_file
+
+        - name: Decode file content
+          set_fact:
+            ip_file_content: "{{ ip_file.content | b64decode | trim }}"
+          when: ip_file is defined and ip_file.content is defined
+
+        - name: Compare eth1 IP with file content
+          debug:
+            msg: >-
+              {{
+                '✅ eth1 のIPアドレスの確認OK'
+                if eth1_ip == ip_file_content
+                else '⚠️ eth1 IP address does NOT match file content → eth1: ' ~ eth1_ip ~ ', file: ' ~ ip_file_content
+              }}
+          when: eth1_ip | length > 0 and ip_file_content is defined
+
+      ignore_errors: yes
+      tags: ip
+

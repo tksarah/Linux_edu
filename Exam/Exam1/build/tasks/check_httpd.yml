@@ -1,0 +1,82 @@
+- block:
+
+    - name: Collect installed package facts
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Check if httpd is installed
+      debug:
+        msg: >-
+          {{
+            '✅ Apache インストールOK'
+            if 'httpd' in ansible_facts.packages
+            else '⚠️ httpd is NOT installed on this host'
+          }}
+
+    - name: Check if httpd is running
+      ansible.builtin.systemd:
+        name: httpd
+        state: started
+      register: httpd_status
+      changed_when: false
+      failed_when: httpd_status.status.ActiveState != 'active'
+
+    - name: Confirm httpd is running
+      debug:
+        msg: >-
+          {{
+            '✅ Webサーバー起動OK'
+            if httpd_status.status.ActiveState == 'active'
+            else '⚠️ httpd is NOT running'
+          }}
+
+    - name: Check if httpd is enabled (auto-start on boot)
+      ansible.builtin.systemd:
+        name: httpd
+        enabled: true
+      register: httpd_enabled
+      changed_when: false
+      failed_when: not httpd_enabled.status.UnitFileState in ['enabled', 'static']
+
+    - name: Confirm httpd is enabled
+      debug:
+        msg: >-
+          {{
+            '✅ Webサーバーの自動起動OK'
+            if httpd_enabled.status.UnitFileState in ['enabled', 'static']
+            else '⚠️ httpd is NOT enabled for auto-start'
+          }}
+
+    - name: Read /root/ps_httpd.out as plain text
+      ansible.builtin.shell: cat /root/ps_httpd.out
+      register: ps_text
+      changed_when: false
+
+    - name: Check if any line contains 'httpd'
+      set_fact:
+        httpd_lines: "{{ ps_text.stdout_lines | select('search', 'httpd') | list }}"
+
+    - name: Confirm httpd process exists
+      debug:
+        msg: >-
+          {{
+            '✅ httpd プロセス確認のファイルOK'
+            if httpd_lines | length > 0
+            else '⚠️ No httpd process found in ps_httpd.out'
+          }}
+
+    - name: Get httpd test page content
+      ansible.builtin.command: curl -s http://localhost/
+      register: httpd_response
+      changed_when: false
+
+    - name: Confirm page content is exactly "Hello TECHC"
+      debug:
+        msg: >-
+          {{
+            '✅ デフォルトページのアップデート確認OK'
+            if httpd_response.stdout | trim == 'Hello TECHC'
+            else '⚠️ Unexpected content: ' ~ httpd_response.stdout | trim
+          }}
+  ignore_errors: yes
+  tags: httpd

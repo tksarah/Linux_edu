@@ -1,0 +1,23 @@
+# check_user.yml
+- hosts: target
+  become: yes
+  tasks:
+    - name: Show inventory hostname
+      debug:
+        msg: "This is {{ inventory_hostname }}"
+
+    - name: Check basic
+      ansible.builtin.include_tasks: tasks/check_basic.yml
+      tags: group,user,password,hello,perm,dir,hosts,dns,ip
+
+    - name: Check httpd
+      ansible.builtin.include_tasks: tasks/check_httpd.yml
+      tags: httpd
+
+    - name: Check backup
+      ansible.builtin.include_tasks: tasks/check_backup.yml
+      tags: backup
+
+    - name: Check crontab
+      ansible.builtin.include_tasks: tasks/check_cron.yml
+      tags: cron
