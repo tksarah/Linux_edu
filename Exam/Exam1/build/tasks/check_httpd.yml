@@ -65,18 +65,40 @@
             else '⚠️ No httpd process found in ps_httpd.out'
           }}
 
-    - name: Get httpd test page content
-      ansible.builtin.command: curl -s http://localhost/
-      register: httpd_response
-      changed_when: false
+    - name: Find all files in /var/www/html
+      ansible.builtin.find:
+        paths: /var/www/html
+        file_type: file
+      register: html_files
 
-    - name: Confirm page content is exactly "Hello TECHC"
+    - name: Extract non-index.html files
+      set_fact:
+        non_index_files: >-
+          {{
+            html_files.files | rejectattr('path', 'search', 'index.html$') | list
+          }}
+
+    - name: Skip if non-index.html files exist
+      debug:
+        msg: "⚠️ /var/www/html contains files other than index.html → skipping content check"
+      when: non_index_files | length > 0
+
+    - name: Access Apache page if only index.html exists
+      ansible.builtin.uri:
+        url: http://localhost/
+        return_content: yes
+      register: apache_response
+      when: non_index_files | length == 0 and html_files.matched > 0
+
+    - name: Confirm 'Hello World' is in page content
       debug:
         msg: >-
           {{
-            '✅ デフォルトページのアップデート確認OK'
-            if httpd_response.stdout | trim == 'Hello TECHC'
-            else '⚠️ Unexpected content: ' ~ httpd_response.stdout | trim
+            '✅ Hello World の出力を確認'
+            if 'Hello World' in apache_response.content
+            else '⚠️ Hello World NOT found in Apache page'
           }}
+      when: apache_response is defined
+
   ignore_errors: yes
   tags: httpd

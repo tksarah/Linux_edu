@@ -30,7 +30,7 @@ ansible [core 2.15.13]
 ```
 
 ## 受験者のリストを作成
-- 受験者用のマシンを作った後に、以下のようなファイルを作成する。
+- 受験者用のマシンを作った後に、以下のような student.txt を作成
 - 書式： "受講者名 eth1のIPアドレス"
 
 ```
@@ -44,9 +44,9 @@ Hanako 192.168.0.2
 - 作成されたファイルを Playbook と同じディレクトリに置く
 
 ## 全受験者マシンに公開鍵をコピー
+- Ansible Host の .ssh/known_hosts をリフレッシュ
+- スクリプト実行前に、受講者マシンの root のパスワードを"PASSWORD"に設定
 - スクリプト（tools/copy_keys.sh）を実行
-- ※ Ansible Host の方の .ssh/known_hosts をリフレッシュ
-- ※ 実行前に、受講者マシンの root のパスワードを"PASSWORD"に設定する
 
 ## 実行テスト
 
@@ -66,4 +66,11 @@ Taro | SUCCESS => {
     "changed": false,
     "ping": "pong"
 }
+```
+
+## 実行例
+
+受講者と tag 指定
+```
+ansible-playbook -i hosts playbook.yml -l Taro -t group,user,password,hello,perm,dir,hosts,dns,ip
 ```

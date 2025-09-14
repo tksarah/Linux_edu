@@ -1,6 +1,6 @@
     - block:
-        - name: Check if group 'techc' exists
-          ansible.builtin.command: getent group techc
+        - name: Check if group 'hoge' exists
+          ansible.builtin.command: getent group hoge
           register: group_check
 
         - name: Show result
@@ -9,7 +9,7 @@
               {{
                 '✅ グループ作成OK'
                 if group_check.rc == 0
-                else '⚠️ Group techc does NOT exist'
+                else '⚠️ Group hoge does NOT exist'
               }}
 
       ignore_errors: yes
@@ -34,13 +34,13 @@
           register: taro_groups
           changed_when: false
 
-        - name: Check if taro belongs to 'techc'
+        - name: Check if taro belongs to 'hoge'
           debug:
             msg: >-
               {{
-                '✅ グループのtechc の所属確認OK'
-                if 'techc' in taro_groups.stdout.split()
-                else '⚠️ taro does NOT belong to techc group'
+                '✅ グループのhoge の所属確認OK'
+                if 'hoge' in taro_groups.stdout.split()
+                else '⚠️ taro does NOT belong to hoge group'
               }}
 
       ignore_errors: yes
